@@ -1,0 +1,48 @@
+main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "navbar navbar"
+      "logo signin";
+}
+
+.container_fluid {
+    display: flex;
+    align-items: center;
+}
+
+.navbar{
+    grid-area: navbar;
+}
+
+#logo{
+    grid-area: logo;
+    max-width: 50%;
+    display: flex;
+    margin: 5%;
+}
+
+#signin_div{
+    grid-area: signin;
+    max-width: 45%;
+    display: flex;
+    margin: auto;
+}
+
+#signin_form{
+    margin: auto;
+    border: 3px solid DodgerBlue;
+    border-radius: 15px;
+    padding: 1%;
+}
+
+#signup_label{
+    margin: auto;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+#signin_button{
+    margin: auto;
+    display: block;
+}

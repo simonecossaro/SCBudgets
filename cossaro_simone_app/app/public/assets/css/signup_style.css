@@ -1,0 +1,21 @@
+#logo{
+    max-width: 30%;
+    display: block;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+#signup_form{
+    display: block;
+    max-width: 45%;
+    margin: auto;
+    border: 3px solid DodgerBlue;
+    border-radius: 15px;
+    padding: 1%;
+}
+
+#signup_button{
+    margin: auto;
+    display: block;
+}
