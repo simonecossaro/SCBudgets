@@ -1,0 +1,21 @@
+version: "3"
+services:
+  cossaro_simone_app:
+    container_name: cossaro_simone_app
+    build: .
+    command: nodemon --watch . -e js app.js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/var/www
+    links:
+      - "mongo_expenses:mongohost"
+  mongo_expenses:
+    container_name: mongo_expenses
+    image: mongo:latest
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+
+
