@@ -7,6 +7,7 @@ const session = require('express-session');
 const router_api = require('./rest_api.js');
 const client = new MongoClient(uri);
 let db = null;
+const {initializeDatabase} = require('./initialize_database.js');
 
 app.use(session({
     secret: 'segreto',
@@ -52,4 +53,5 @@ app.get("/signup", async (req, res) => {
 app.listen(3000, async () => {
     await client.connect();
     db = client.db("expenses");
+    await initializeDatabase();
 });
