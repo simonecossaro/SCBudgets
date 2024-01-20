@@ -42,11 +42,11 @@
                     </div>
                     <input type="submit" class="btn btn-primary btn-outline-light" @click.prevent="loadBalanceList()" value="search"/>
                   </form>
-                  <div class="nav-item dropdown">
+                  <div class="nav-item dropdown-center" id="user_logo">
                     <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       &#128100;{{username}}
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" id="drop_menu">
                       <li><a class="dropdown-item" @click.prevent="loadUserInfo()">My profile</a></li>
                       <li><a id="logout" class="dropdown-item" href="/signin" @click="logout()">Logout</a></li>
                     </ul>
