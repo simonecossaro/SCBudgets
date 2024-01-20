@@ -463,6 +463,14 @@ const expense31 = {
     user_quota : 10
 };
 
+async function removeOldExpenses(){
+    await db.collection("expenses").deleteMany({"creator":{$regex:''}});
+}
+
+async function removeOldUsers(){
+    await db.collection("users").deleteMany({"username":{$regex:''}});
+}
+
 async function addUserToDb(new_user){
     await db.collection("users").insertOne(new_user);
 }
@@ -472,6 +480,7 @@ async function addExpenseToDb(new_expense){
 }
 
 async function initializeExpenses(){
+    await removeOldExpenses();
     let new_expenses = [expense1,expense2,expense3,expense4,expense5,expense6,expense7,expense8,expense9,expense10,
         expense11,expense12,expense13,expense14,expense15,expense16,expense17,expense18,expense19,expense20,expense21,
         expense22,expense23,expense24,expense25,expense26,expense27,expense28,expense29,expense30,expense31];
@@ -481,13 +490,19 @@ async function initializeExpenses(){
 }
 
 async function initializeUsers(){
+    await removeOldUsers();
     let new_users = [user0,user1,user2,user3,user4,user5,user6,user7,user8,user9,user10,user11,user12,user13,user14,user15,user16,user17,user18,user19,user20];
     new_users.forEach(function(user){
         addUserToDb(user);
     });
 }
 
-module.exports = {initializeUsers,initializeExpenses};
+async function initializeDatabase(){
+    await initializeUsers();
+    await initializeExpenses();
+};
+
+module.exports = {initializeDatabase};
 
 
 
