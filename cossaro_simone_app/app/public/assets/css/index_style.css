@@ -1,0 +1,204 @@
+span {
+    font-size: 50px;
+    font-weight: bold;
+}
+legend {
+    margin-bottom: 5%;
+}
+/*  TOP PAGE    */
+#balance_line, #debts_line {
+    margin:auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+    font-size: 30px;
+    display: block;
+}
+/*  EXPENSES DIV  */
+#expenseslist_div {
+    margin: 5%;
+}
+#add_filters_button {
+    background-color: dodgerblue;
+    color: white;
+    float: left;
+}
+#filters_list {
+    display: none;
+}
+#remove_filters {
+    background-color: red;
+}
+#close_filters {
+    background-color: gray;
+}
+#filters_list input, #category_find {
+    margin-right: 1%;
+}
+#filters_list .btn {
+    margin-right: 0;
+}
+#search_expense {
+    float: right;
+    max-width: 35%;
+    margin-bottom: 1%;
+}
+#table_expenseslist {
+    clear: left;
+    clear: right;
+}
+#expenseslist th, #balancelist th {
+    background-color: dodgerblue;
+    color: white;
+}
+#noresults {
+    display: none;
+}
+button[id^=modifybutton] {
+    background-color: yellow;
+    width: 95%;
+    padding: 5px 0px;
+}
+button[id^=db] {
+    background-color: red;
+    width: 100%;
+    padding: 5px 0px;
+}
+#pagination_div {
+    margin: auto;
+    text-align: center;
+}
+#nextButton,#prevButton {
+    background-color: dodgerblue;
+    color: white;
+    width: 10%;
+}
+/*  INSERT DIV  */
+#insert_div {
+    display: none;
+}
+#insert_form {
+    margin: auto;
+    width: 33%;
+    border: 2px solid blue;
+    border-radius: 5px;
+    padding: 1%;
+    color: white;
+    background-color: dodgerblue;
+}
+#create {
+    margin: auto;
+    display: block;
+}
+#help_insert_btn{
+    border: 1px solid gray;
+    border-radius: 20px;
+    margin: auto;
+    display: block;
+}
+#help_insert_alert{
+    font-size: 14px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+#expense_entered_alert{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 1%;
+}
+/*  PAY DIV */
+#pay_div {
+    display: none;
+    margin: 5%;
+}
+#paytable_div {
+    margin: auto;
+    display: block;
+}
+#paytable th {
+    background-color: dodgerblue;
+    color: white;
+}
+button[id^=paybutton]{
+    background-color: green;
+    width: 100%;
+    padding: 0px 0px;
+}
+#nodebts_div {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 15%;
+    background-color: green;
+    color: white;
+}
+/* UPDATE DIV*/
+#update_div {
+    display: none;
+}
+#update_form {
+    margin: auto;
+    width: 33%;
+    border: 2px solid blue;
+    border-radius: 5px;
+    padding: 1%;
+    color: white;
+    background-color: dodgerblue;
+}
+#modify {
+    margin: auto;
+    display: block;
+}
+#expense_modified_alert{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 1%;
+}
+/*  USER INFO   */
+#user_info_list{
+    max-width: 30%;
+    max-height: 50%;
+    margin: auto;
+    display: none;
+    margin-top: 10%;
+    font-size: 20px;
+    border: 2px solid dodgerblue;
+}
+span#user_info_span{
+    font-size: 20px;
+    font-weight: normal;
+    color: dodgerblue;
+}
+/*  USER SEARCH */
+#users_search {
+    display: none;
+    margin: 5%;
+}
+#balance_with {
+    margin-left: auto;
+    font-size: 25px;
+}
+#other_user, #balance_with_other_user {
+    font-size: 30px;
+}
+#balancelist{
+    margin-top: 5%;
+}
+#nobalancelist_div {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 15%;
+    background-color: dodgerblue;
+    color: white;
+}
+/*  GLOBAL  */
+#close_insert, #close_pay, #close_expenses_search, #close_modify, #home_button{
+    font-size: 15px;
+    padding: 5px 10px;
+    color: white;
+    background-color: red;
+    margin: auto;
+    display: block;
+    margin-top: 1%;
+}
+
+
