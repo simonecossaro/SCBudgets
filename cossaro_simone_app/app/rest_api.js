@@ -18,9 +18,11 @@ const {getBalance,getBalanceId,getBalanceToPay} = require("./balance.js");
 
 router.post("/auth/signup", async (req, res) => {
     try{
-        if (req.body.password !== req.body.password_c) {
+        if (req.body.username.includes(',')){
+            res.status(401).json({msg: "The username contains ',' which is not allowed"});
+        } else if (req.body.password !== req.body.password_c) {
             res.status(401).json({msg: "The two passwords do not match"});
-        } else{
+        } else {
             let new_user = {
                 username: req.body.username,
                 name: req.body.name,
@@ -62,17 +64,38 @@ router.get("/budget", async (req, res) => {
     res.json(budget);
 });
 
+router.get("/budgets", async (req, res) => {
+    let budget = await db.collection("expenses").find().sort({date:-1}).toArray();
+    res.json(budget);
+});
+
 router.get("/budget/whoami", async (req, res) => {
     let user_info = await db.collection("users").findOne({username:req.session.user});
     res.json(user_info);
 });
 
 router.get("/budget/search", async (req, res) => {
-    let query = JSON.parse(req.query.q);
-    let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
-    {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
-    query]}).sort({date:-1}).toArray();
-    res.json(budget);
+    try{
+        let query = JSON.parse(req.query.q);
+        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
+        query]}).sort({date:-1}).toArray();
+        res.json(budget);
+    } catch(err){
+        console.error(err.message);
+        res.sendStatus(400).json({msg: "Error"});
+    }
+});
+
+router.get("/users/search", async (req, res) => {
+    try{
+        let query = JSON.parse(req.query.q);
+        let users = await db.collection("users").find(query).toArray();
+        res.json(users);
+    } catch(err){
+        console.error(err.message);
+        res.sendStatus(400).json({msg: "Error"});
+    }
 });
 
 router.get("/budget/:year", async (req, res) => {
@@ -84,22 +107,32 @@ router.get("/budget/:year", async (req, res) => {
 });
 
 router.get("/budget/:year/search", async (req, res) => {
-    let query = JSON.parse(req.query.q);
-    let year = parseInt(req.params.year);
-    let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
-    {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
-    {"date":{"$gte":new Date(year,0,1),"$lte":new Date(year,11,31)}},query]}).sort({date:-1}).toArray();
-    res.json(budget);
+    try{
+        let query = JSON.parse(req.query.q);
+        let year = parseInt(req.params.year);
+        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
+        {"date":{"$gte":new Date(year,0,1),"$lte":new Date(year,11,31)}},query]}).sort({date:-1}).toArray();
+        res.json(budget);
+    } catch(err){
+        console.error(err.message);
+        res.sendStatus(400).json({msg: "Error"});
+    }
 });
 
 router.get("/budget/:year/:month/search", async (req, res) => {
-    let query = JSON.parse(req.query.q);
-    let year = parseInt(req.params.year);
-    let month = parseInt(req.params.month);
-    let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
-    {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
-    {"date":{"$gte":new Date(year,month-1,1),"$lte":new Date(year,month-1,31)}},query]}).sort({date:-1}).toArray();
-    res.json(budget);
+    try{
+        let query = JSON.parse(req.query.q);
+        let year = parseInt(req.params.year);
+        let month = parseInt(req.params.month);
+        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
+        {"date":{"$gte":new Date(year,month-1,1),"$lte":new Date(year,month-1,31)}},query]}).sort({date:-1}).toArray();
+        res.json(budget);
+    } catch(err){
+        console.error(err.message);
+        res.sendStatus(400).json({msg: "Error"});
+    }
 });
 
 router.get("/budget/:year/:month", async (req, res) => {
@@ -122,29 +155,49 @@ router.get("/budget/:year/:month/:id", async (req, res) => {
 });
 
 router.delete("/budget/:year/:month/:id", async (req, res) => {
-    let year = req.params.year;
-    let month = req.params.month;
-    let id = req.params.id;
-    await db.collection("expenses").deleteOne({ $and:[{creator:req.session.user}, 
-    {_id: new ObjectId(id)}]});
-    res.json({msg: "Expense delated"});
+    try {
+        let year = req.params.year;
+        let month = req.params.month;
+        let id = req.params.id;
+        await db.collection("expenses").deleteOne({ $and:[{creator:req.session.user}, 
+        {_id: new ObjectId(id)}]});
+        res.json({msg: "Expense delated"});
+    } catch(err){
+        console.error(err.message);
+        res.sendStatus(400).json({msg: "Error"});
+    }
 });
 
 router.put("/budget/:year/:month/:id", async (req, res) => {
     try {
-        await db.collection("expenses").updateOne({_id:new ObjectId(req.params.id)}, {
-            $set:{
-                creator: req.session.user,
-                amount: req.body.amount,
-                description: req.body.description,
-                category: req.body.category,
-                shared_with: req.body.shared_with,
-                quotas: req.body.quotas,
-                user_quota: req.body.user_quota,
-                date: new Date(req.body.date)
-            }
-        });
-        res.json({msg: "Expense modified"});
+        let modified_expense = {
+            creator: req.session.user,
+            amount: req.body.amount,
+            description: req.body.description,
+            category: req.body.category,
+            shared_with: req.body.shared_with,
+            quotas: req.body.quotas,
+            date: new Date(req.body.date),
+            user_quota : req.body.user_quota
+        };
+        let check_input = await checkInsert(modified_expense);
+        if (check_input.msg === "Correct input"){
+            await db.collection("expenses").updateOne({_id:new ObjectId(req.params.id)}, {
+                $set:{
+                    creator: req.session.user,
+                    amount: req.body.amount,
+                    description: req.body.description,
+                    category: req.body.category,
+                    shared_with: req.body.shared_with,
+                    quotas: req.body.quotas,
+                    user_quota: req.body.user_quota,
+                    date: new Date(req.body.date)
+                }
+            });
+            res.json({msg: "Expense modified"});
+        } else{
+            res.json(check_input);
+        }
     } catch(err) {
         console.error(err.message);
         res.sendStatus(400).json({msg: "Error"});
@@ -200,10 +253,12 @@ router.get("/users", async (req, res) => {
     res.json(usernames);
 });
 
-router.get("/users/search", async (req, res) => {
-    let query = JSON.parse(req.query.q);
-    let users = await db.collection("users").find(query).toArray();
-    res.json(users);
+router.get("/pay/:username", async(req,res) => {
+    let username = req.params.username;
+    let response = await db.collection("expenses").find({$and:[{"amount":{$ne:0}},{$or:[{"shared_with":username},
+    {"shared_with":{$regex : ","+username+","}},{"shared_with":new RegExp('^'+username+',')},{"shared_with":new RegExp(','+username+'$')}]}]}).sort({date:-1}).toArray();
+    let paylist = await getBalanceToPay(username,response);
+    res.json(paylist);
 });
 
 router.get("/pay", async(req,res) => {
