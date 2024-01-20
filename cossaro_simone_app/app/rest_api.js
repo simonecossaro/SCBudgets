@@ -64,11 +64,6 @@ router.get("/budget", async (req, res) => {
     res.json(budget);
 });
 
-router.get("/budgets", async (req, res) => {
-    let budget = await db.collection("expenses").find().sort({date:-1}).toArray();
-    res.json(budget);
-});
-
 router.get("/budget/whoami", async (req, res) => {
     let user_info = await db.collection("users").findOne({username:req.session.user});
     res.json(user_info);
@@ -251,14 +246,6 @@ router.get("/users", async (req, res) => {
         usernames.push(user.username);
     })
     res.json(usernames);
-});
-
-router.get("/pay/:username", async(req,res) => {
-    let username = req.params.username;
-    let response = await db.collection("expenses").find({$and:[{"amount":{$ne:0}},{$or:[{"shared_with":username},
-    {"shared_with":{$regex : ","+username+","}},{"shared_with":new RegExp('^'+username+',')},{"shared_with":new RegExp(','+username+'$')}]}]}).sort({date:-1}).toArray();
-    let paylist = await getBalanceToPay(username,response);
-    res.json(paylist);
 });
 
 router.get("/pay", async(req,res) => {
