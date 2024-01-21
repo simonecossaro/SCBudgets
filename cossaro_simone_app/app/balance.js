@@ -14,8 +14,8 @@ app.use(session({
 
 // function to find the quota of the user passed as a parameter
 function findDebt(user,expense){
-    let users = expense.shared_with.split(',');
-    let quotas = expense.quotas.split(',');
+    const users = expense.shared_with.split(',');
+    const quotas = expense.quotas.split(',');
     let index;
     for (i =0; i<users.length; i++){
         if (users[i] === user){
@@ -31,7 +31,7 @@ async function getBalance (user,budget){
     budget.forEach(function(expense){
         if (expense.creator === user){
             if (expense.amount !== 0){
-                let new_credit = {
+                const new_credit = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -45,7 +45,7 @@ async function getBalance (user,budget){
                 };
                 balance.push(new_credit);
             } else if (expense.amount === 0){
-                let new_credit = {
+                const new_credit = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -61,7 +61,7 @@ async function getBalance (user,budget){
             }
         } else {
             if (expense.amount !== 0){
-                let new_debt = {
+                const new_debt = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -75,7 +75,7 @@ async function getBalance (user,budget){
                 };
                 balance.push(new_debt);
             } else if (expense.amount === 0){
-                let new_debt = {
+                const new_debt = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -105,7 +105,7 @@ async function getBalanceId (user,budget,other_user){
     budget.forEach(function(expense){
         if (expense.creator === user){
             if (expense.amount !== 0){
-                let new_credit = {
+                const new_credit = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -116,7 +116,7 @@ async function getBalanceId (user,budget,other_user){
                 };
                 balance.push(new_credit);
             } else if (expense.amount === 0){
-                let new_credit = {
+                const new_credit = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -129,7 +129,7 @@ async function getBalanceId (user,budget,other_user){
             }
         } else {
             if (expense.amount !== 0){
-                let new_debt = {
+                const new_debt = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -140,7 +140,7 @@ async function getBalanceId (user,budget,other_user){
                 };
                 balance.push(new_debt);
             } else if (expense.amount === 0){
-                let new_debt = {
+                const new_debt = {
                     id : expense._id,
                     date: expense.date,
                     description: expense.description,
@@ -174,14 +174,14 @@ async function hasBeenPaid(expense,this_username){
 async function getBalanceToPay(user,expenses_list){
     let paylist = [];
     for (i=0; i< expenses_list.length; i++){
-        let hasbeenpaid = await hasBeenPaid(expenses_list[i],user);
+        const hasbeenpaid = await hasBeenPaid(expenses_list[i],user);
         if (!hasbeenpaid){
             paylist.push(expenses_list[i]);
         }
     }
     let balance = [];
     paylist.forEach(function(expense){
-        let new_debt = {
+        const new_debt = {
             id : expense._id,
             date: expense.date,
             description: expense.description,
