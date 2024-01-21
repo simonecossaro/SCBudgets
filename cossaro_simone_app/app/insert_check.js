@@ -15,11 +15,10 @@ const router = express.Router();
 
 // function to check the correct format of shared_with input field and and the existence of all users entered
 async function errors_in_sharedwith(expense){
-    let users = expense.shared_with.split(',');
-    var i;
+    const users = expense.shared_with.split(',');
     for (i=0; i<users.length; i++){
-        let query = JSON.parse("{\"username\":\""+users[i]+"\"}");
-        let user = await db.collection("users").findOne(query);
+        const query = JSON.parse("{\"username\":\""+users[i]+"\"}");
+        const user = await db.collection("users").findOne(query);
         if (!user){
             return true;
         }
@@ -29,8 +28,8 @@ async function errors_in_sharedwith(expense){
 
 // function to check the correct format of quotas input field and that the sum of the quotas gives the total amount
 async function errors_in_quotas(expense){
-    let shared_length = expense.shared_with.split(',').length;
-    let quotas = expense.quotas.split(',');
+    const shared_length = expense.shared_with.split(',').length;
+    const quotas = expense.quotas.split(',');
     if (shared_length !== quotas.length){
         return true;
     }
@@ -52,12 +51,12 @@ async function checkInput(expense){
     if (expense.amount < 0){
         return {msg:"The amount cannot be negative"};
     }
-    let check_sharedwith = await errors_in_sharedwith(expense);
+    const check_sharedwith = await errors_in_sharedwith(expense);
     if (check_sharedwith){
         return {msg:"Error in users inserted: some users may not exist or the input may be in an incorrect format"};
     }
     if (expense.quotas){
-        let check_quotas = await errors_in_quotas(expense);
+        const check_quotas = await errors_in_quotas(expense);
         if (check_quotas){
             return {msg:"Error in quotas inserted: the number of quotas may not be consistent with the number of users or the total sum of the quotas may not lead to the total amount"};
         }
