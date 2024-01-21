@@ -206,7 +206,7 @@ const expense6 = {
     creator: "mario_rossi7",
     amount: 100,
     description: "spa",
-    category: "holiday/wellness",
+    category: "holiday_wellness",
     shared_with: "stefania_ricci",
     quotas: "50",
     date: new Date(2024,0,10),
@@ -226,7 +226,7 @@ const expense8 = {
     creator: "valterv",
     amount: 20,
     description: "bowling",
-    category: "hobby&fun",
+    category: "hobby_fun",
     shared_with: "mario_rossi7",
     quotas: "10",
     date: new Date(2024,0,10),
@@ -244,13 +244,13 @@ const expense9 = {
 };
 const expense10 = {
     creator: "mario_rossi7",
-    amount: 16,
-    description: "cinema",
-    category: "tickets",
+    amount: 10,
+    description: "colazione al bar",
+    category: "food",
     shared_with: "giulia_conti",
-    quotas: "6",
-    date: new Date(2024,0,10),
-    user_quota : 10
+    quotas: "5",
+    date: new Date(2024,0,12),
+    user_quota : 5
 };
 const expense11 = {
     creator: "mario_rossi7",
@@ -266,7 +266,7 @@ const expense12 = {
     creator: "luigi_bianchi",
     amount: 30,
     description: "sala giochi",
-    category: "hobby&fun",
+    category: "hobby_fun",
     shared_with: "mario_rossi7",
     quotas: "15",
     date: new Date(2023,2,7),
@@ -354,13 +354,13 @@ const expense20 = {
 };
 const expense21 = {
     creator: "mario_rossi7",
-    amount: 16,
-    description: "cinema",
-    category: "tickets",
+    amount: 40,
+    description: "libro Analisi",
+    category: "work_study",
     shared_with: "giulia_conti",
-    quotas: "6",
-    date: new Date(2024,0,10),
-    user_quota : 10
+    quotas: "20",
+    date: new Date(2023,9,2),
+    user_quota : 20
 };
 const expense22 = {
     creator: "chiaretta98",
@@ -376,7 +376,7 @@ const expense23 = {
     creator: "alice_fontana",
     amount: 60,
     description: "massaggio",
-    category: "holiday/wellness",
+    category: "holiday_wellness",
     shared_with: "giulia_conti",
     quotas: "30",
     date: new Date(2023,11,1),
@@ -406,7 +406,7 @@ const expense26 = {
     creator: "luigi_bianchi",
     amount: 20,
     description: "calcetto",
-    category: "hobby&fun",
+    category: "hobby_fun",
     shared_with: "dimash",
     quotas: "10",
     date: new Date(2023,6,7),
@@ -436,7 +436,7 @@ const expense29 = {
     creator: "mario_rossi7",
     amount: 400,
     description: "hotel barcellona",
-    category: "holiday/wellness",
+    category: "holiday_wellness",
     shared_with: "giulia_conti,luigi_bianchi,alice_fontana",
     quotas: "100,100,100",
     date: new Date(2023,6,10),
@@ -456,7 +456,7 @@ const expense31 = {
     creator: "giulia_conti",
     amount: 40,
     description: "bowling",
-    category: "hobby&fun",
+    category: "hobby_fun",
     shared_with: "mario_rossi7,luigi_bianchi,alice_fontana",
     quotas: "10,10,10",
     date: new Date(2023,8,14),
