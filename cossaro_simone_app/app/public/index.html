@@ -122,7 +122,8 @@
                       <td>{{expense.description}}</td>
                       <td>{{expense.category}}</td>
                       <td v-if="expense.id">{{expense.amount}}</td>
-                      <td v-if="expense._id && expense.creator===username">{{expense.user_quota}}</td>
+                      <td v-if="expense._id && expense.creator===username && expense.amount!==0">{{expense.amount - expense.user_quota}}</td>
+                      <td v-if="expense._id && expense.creator===username && expense.amount===0">{{expense.user_quota}}</td>
                       <td v-if="expense._id && expense.creator!==username">{{findDebt(username,expense)}}</td>
                       <td v-if="expense.creator===username" id="td_mb"><button id="modifybutton_${expense.id}" @click.prevent="prepareModify(expense)">&#128394;</button></td>
                       <td v-if="expense.creator!==username"></td>
