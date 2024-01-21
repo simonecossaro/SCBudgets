@@ -146,7 +146,7 @@ const app = createApp({
             category: expense_to_pay.category,
             shared_with: expense_to_pay.creator,
             quotas: (-1*expense_to_pay.amount).toString(),
-            user_quote: expense_to_pay.amount
+            user_quota: expense_to_pay.amount
         };
         const response = await fetch("/api/budget/2024/01", {
             method: 'POST',
@@ -212,7 +212,7 @@ const app = createApp({
         this.date_modify = new Date(expense.date);
         document.getElementById("update_div").style.display = "block";
         document.getElementById("expenseslist_div").style.display = "none";
-        document.getElementById("users-search").style.display = "none";
+        document.getElementById("users_search").style.display = "none";
       },
       resetInsertForm: function(){
         document.getElementById('insert_form').reset();
