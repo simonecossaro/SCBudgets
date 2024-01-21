@@ -1,4 +1,4 @@
-# SCBudgets
+# $CBudgets
 
 A web application for managing family budgets has been developed in this repository.
 
