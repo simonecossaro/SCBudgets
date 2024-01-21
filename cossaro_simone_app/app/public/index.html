@@ -147,7 +147,7 @@
                 Your balance with <span id="other_user">{{other_username}}</span> : 
                 <span v-if="balance_with_other_user>0" id="balance_with_other_user" class="text-success">+{{balance_with_other_user}}</span>
                 <span v-if="balance_with_other_user<0" id="balance_with_other_user" class="text-danger"> {{balance_with_other_user}}</span>
-                <span v-if="expenses_with_other_user.length==0" id="balance_with_other_user"> 0</span>
+                <span v-if="expenses_with_other_user.length==0 || balance_with_other_user==0" id="balance_with_other_user"> 0</span>
               </div>
               <div id="balancelist_table" class="table-responsive">
                 <table id="balancelist" class="table table-hover table-bordered results">
