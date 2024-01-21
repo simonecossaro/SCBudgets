@@ -23,7 +23,7 @@ router.post("/auth/signup", async (req, res) => {
         } else if (req.body.password !== req.body.password_c) {
             res.status(401).json({msg: "The two passwords do not match"});
         } else {
-            let new_user = {
+            const new_user = {
                 username: req.body.username,
                 name: req.body.name,
                 surname: req.body.surname,
@@ -59,20 +59,20 @@ router.post("/auth/signin", async (req, res) => {
 });
 
 router.get("/budget", async (req, res) => {
-    let budget = await db.collection("expenses").find({$or:[{creator:req.session.user},{"shared_with":req.session.user},
+    const budget = await db.collection("expenses").find({$or:[{creator:req.session.user},{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]}).sort({date:-1}).toArray();
     res.json(budget);
 });
 
 router.get("/budget/whoami", async (req, res) => {
-    let user_info = await db.collection("users").findOne({username:req.session.user});
+    const user_info = await db.collection("users").findOne({username:req.session.user});
     res.json(user_info);
 });
 
 router.get("/budget/search", async (req, res) => {
     try{
-        let query = JSON.parse(req.query.q);
-        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        const query = JSON.parse(req.query.q);
+        const budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
         {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
         query]}).sort({date:-1}).toArray();
         res.json(budget);
@@ -84,8 +84,8 @@ router.get("/budget/search", async (req, res) => {
 
 router.get("/users/search", async (req, res) => {
     try{
-        let query = JSON.parse(req.query.q);
-        let users = await db.collection("users").find(query).toArray();
+        const query = JSON.parse(req.query.q);
+        const users = await db.collection("users").find(query).toArray();
         res.json(users);
     } catch(err){
         console.error(err.message);
@@ -94,8 +94,8 @@ router.get("/users/search", async (req, res) => {
 });
 
 router.get("/budget/:year", async (req, res) => {
-    let year = req.params.year;
-    let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+    const year = req.params.year;
+    const budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
     {"date":{"$gte":new Date(year,0,1),"$lte":new Date(year,11,31)}}]}).sort({date:-1}).toArray();
     res.json(budget);
@@ -103,9 +103,9 @@ router.get("/budget/:year", async (req, res) => {
 
 router.get("/budget/:year/search", async (req, res) => {
     try{
-        let query = JSON.parse(req.query.q);
-        let year = parseInt(req.params.year);
-        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        const query = JSON.parse(req.query.q);
+        const year = parseInt(req.params.year);
+        const budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
         {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
         {"date":{"$gte":new Date(year,0,1),"$lte":new Date(year,11,31)}},query]}).sort({date:-1}).toArray();
         res.json(budget);
@@ -117,10 +117,10 @@ router.get("/budget/:year/search", async (req, res) => {
 
 router.get("/budget/:year/:month/search", async (req, res) => {
     try{
-        let query = JSON.parse(req.query.q);
-        let year = parseInt(req.params.year);
-        let month = parseInt(req.params.month);
-        let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+        const query = JSON.parse(req.query.q);
+        const year = parseInt(req.params.year);
+        const month = parseInt(req.params.month);
+        const budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
         {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
         {"date":{"$gte":new Date(year,month-1,1),"$lte":new Date(year,month-1,31)}},query]}).sort({date:-1}).toArray();
         res.json(budget);
@@ -131,19 +131,19 @@ router.get("/budget/:year/:month/search", async (req, res) => {
 });
 
 router.get("/budget/:year/:month", async (req, res) => {
-    let year = parseInt(req.params.year);
-    let month = parseInt(req.params.month);
-    let budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+    const year = parseInt(req.params.year);
+    const month = parseInt(req.params.month);
+    const budget = await db.collection("expenses").find({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
     {"date":{"$gte":new Date(year,month-1,1),"$lte":new Date(year,month-1,31)}}]}).sort({date:-1}).toArray();
     res.json(budget);
 });
 
 router.get("/budget/:year/:month/:id", async (req, res) => {
-    let year = parseInt(req.params.year);
-    let month = parseInt(req.params.month);
-    let id = req.params.id;
-    let budget = await db.collection("expenses").findOne({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
+    const year = parseInt(req.params.year);
+    const month = parseInt(req.params.month);
+    const id = req.params.id;
+    const budget = await db.collection("expenses").findOne({$and:[{$or:[{creator:req.session.user},{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]},
     {_id: new ObjectId(id)}]});
     res.json(budget);
@@ -151,9 +151,9 @@ router.get("/budget/:year/:month/:id", async (req, res) => {
 
 router.delete("/budget/:year/:month/:id", async (req, res) => {
     try {
-        let year = req.params.year;
-        let month = req.params.month;
-        let id = req.params.id;
+        const year = req.params.year;
+        const month = req.params.month;
+        const id = req.params.id;
         await db.collection("expenses").deleteOne({ $and:[{creator:req.session.user}, 
         {_id: new ObjectId(id)}]});
         res.json({msg: "Expense delated"});
@@ -165,7 +165,7 @@ router.delete("/budget/:year/:month/:id", async (req, res) => {
 
 router.put("/budget/:year/:month/:id", async (req, res) => {
     try {
-        let modified_expense = {
+        const modified_expense = {
             creator: req.session.user,
             amount: req.body.amount,
             description: req.body.description,
@@ -175,7 +175,7 @@ router.put("/budget/:year/:month/:id", async (req, res) => {
             date: new Date(req.body.date),
             user_quota : req.body.user_quota
         };
-        let check_input = await checkInsert(modified_expense);
+        const check_input = await checkInsert(modified_expense);
         if (check_input.msg === "Correct input"){
             await db.collection("expenses").updateOne({_id:new ObjectId(req.params.id)}, {
                 $set:{
@@ -200,7 +200,7 @@ router.put("/budget/:year/:month/:id", async (req, res) => {
 });
 
 router.post("/budget/:year/:month", async (req, res) => {
-    let new_expense = {
+    const new_expense = {
         creator: req.session.user,
         amount: req.body.amount,
         description: req.body.description,
@@ -211,7 +211,7 @@ router.post("/budget/:year/:month", async (req, res) => {
         user_quota : req.body.user_quota
     };
     try {
-        let check_input = await checkInsert(new_expense);
+        const check_input = await checkInsert(new_expense);
         if (check_input.msg === "Correct input"){
             await db.collection("expenses").insertOne(new_expense);
             res.json({msg:"Expense entered"});
@@ -224,24 +224,24 @@ router.post("/budget/:year/:month", async (req, res) => {
 });
 
 router.get("/balance", async (req, res) => {
-    let budget = await db.collection("expenses").find({$or:[{creator:req.session.user},{"shared_with":req.session.user},
+    const budget = await db.collection("expenses").find({$or:[{creator:req.session.user},{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]}).sort({date:-1}).toArray();
-    let balance = await getBalance(req.session.user,budget);
+    const balance = await getBalance(req.session.user,budget);
     res.json(balance);
 });
 
 router.get("/balance/:id", async (req, res) => {
-    let id = req.params.id;
-    let budget = await db.collection("expenses").find({$or:[{$and:[{creator:req.session.user},{$or:[{"shared_with":id},
+    const id = req.params.id;
+    const budget = await db.collection("expenses").find({$or:[{$and:[{creator:req.session.user},{$or:[{"shared_with":id},
     {"shared_with":{$regex : ","+id+","}},{"shared_with":new RegExp('^'+id+',')},{"shared_with":new RegExp(','+id+'$')}]}]},
     {$and:[{creator:id},{$or:[{"shared_with":req.session.user},{"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]}]}]}).sort({date:-1}).toArray();
-    let balance = await getBalanceId(req.session.user,budget,id);
+    const balance = await getBalanceId(req.session.user,budget,id);
     res.json(balance);
 });
 
 router.get("/users", async (req, res) => {
     let usernames = [];
-    let users = await db.collection("users").find().toArray();
+    const users = await db.collection("users").find().toArray();
     users.forEach(function(user){
         usernames.push(user.username);
     })
@@ -249,9 +249,9 @@ router.get("/users", async (req, res) => {
 });
 
 router.get("/pay", async(req,res) => {
-    let response = await db.collection("expenses").find({$and:[{"amount":{$ne:0}},{$or:[{"shared_with":req.session.user},
+    const response = await db.collection("expenses").find({$and:[{"amount":{$ne:0}},{$or:[{"shared_with":req.session.user},
     {"shared_with":{$regex : ","+req.session.user+","}},{"shared_with":new RegExp('^'+req.session.user+',')},{"shared_with":new RegExp(','+req.session.user+'$')}]}]}).sort({date:-1}).toArray();
-    let paylist = await getBalanceToPay(req.session.user,response);
+    const paylist = await getBalanceToPay(req.session.user,response);
     res.json(paylist);
 });
 
