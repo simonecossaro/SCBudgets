@@ -80,8 +80,8 @@ const app = createApp({
             date: this.date,
             user_quota: this.user_quota
         };
-        let year = {$year:expense.date};
-        let month = {$month:expense.date};
+        const year = {$year:expense.date};
+        const month = {$month:expense.date};
         const response = await fetch("/api/budget/"+year+"/"+month, {
           method: 'POST',
           headers: {
@@ -110,8 +110,8 @@ const app = createApp({
             quotas: this.quotas_modify,
             date: this.date_modify
         };
-        let year = {$year:expense.date};
-        let month = {$month:expense.date};
+        const year = {$year:expense.date};
+        const month = {$month:expense.date};
         const response = await fetch("/api/budget/"+year+"/"+month+"/"+expense.id, {
           method: 'PUT',
           headers: {
@@ -139,7 +139,7 @@ const app = createApp({
         appendAlert(res.msg,'danger',document.getElementById('expense_deleted_alert'));
       },
       payExpense: async function(expense_to_pay) {
-        let paydebt_expense = {
+        const paydebt_expense = {
             amount: 0,
             date: new Date(),
             description: "payment debt of: " + expense_to_pay.id,
@@ -191,8 +191,8 @@ const app = createApp({
         this.expenses = res;
       },
       findDebt: function(user,expense){
-        let users = expense.shared_with.split(',');
-        let quotas = expense.quotas.split(',');
+        const users = expense.shared_with.split(',');
+        const quotas = expense.quotas.split(',');
         let index;
         for (i =0; i<users.length; i++){
             if (users[i] === user){
@@ -238,7 +238,7 @@ const app = createApp({
         document.getElementById("user_info_list").style.display = "none";
       },
       loadUserInfo: async function(){
-        let html_list = document.getElementById("user_info_list");
+        const html_list = document.getElementById("user_info_list");
         document.getElementById("expenseslist_div").style.display = "none";
         document.getElementById("balance_line").style.display = "none";
         document.getElementById("debts_line").style.display = "none";
@@ -273,9 +273,9 @@ const app = createApp({
         } else{
           document.querySelector('#nextButton').disabled = false;
         }
-        let tds = document.querySelectorAll("#expenseslist_row");
-        let start = (this.curPage-1)*this.pageSize;
-        let end =this.curPage*this.pageSize;
+        const tds = document.querySelectorAll("#expenseslist_row");
+        const start = (this.curPage-1)*this.pageSize;
+        const end =this.curPage*this.pageSize;
         let index = 0;
         tds.forEach(r => {
           if (index >= start && index < end){
@@ -302,7 +302,7 @@ const app = createApp({
       },
       initializeQuotas: async function(){
         let quotas = "";
-        let users_list = await this.shared_with.split(',');
+        const users_list = await this.shared_with.split(',');
         for(i=0; i<users_list.length; i++){
           if (i === (users_list.length-1)){
             quotas += "0";
