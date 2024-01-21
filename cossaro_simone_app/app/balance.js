@@ -12,6 +12,7 @@ app.use(session({
     resave: false
 }));
 
+// function to find the quota of the user passed as a parameter
 function findDebt(user,expense){
     let users = expense.shared_with.split(',');
     let quotas = expense.quotas.split(',');
@@ -24,6 +25,7 @@ function findDebt(user,expense){
     return quotas[index];
 };
 
+// function to find the balance of the user starting from the expenses
 async function getBalance (user,budget){
     let balance = [];
     budget.forEach(function(expense){
@@ -97,6 +99,7 @@ async function getBalance (user,budget){
     return balance;
 };
 
+// function to find the balance between two users
 async function getBalanceId (user,budget,other_user){
     let balance = [];
     budget.forEach(function(expense){
@@ -158,6 +161,7 @@ async function getBalanceId (user,budget,other_user){
     return balance;
 }
 
+// function to check if an expense has been paid
 async function hasBeenPaid(expense,this_username){
     const payments = await db.collection("expenses").find({ $and: [{ creator: this_username }, { "description": { $regex: expense._id.toString() } }] }).toArray();
     if (payments.length == 0){
@@ -166,6 +170,7 @@ async function hasBeenPaid(expense,this_username){
     return true;
 };
 
+// function that returns the list of the debts
 async function getBalanceToPay(user,expenses_list){
     let paylist = [];
     for (i=0; i< expenses_list.length; i++){
