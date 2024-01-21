@@ -13,7 +13,7 @@ app.use(session({
 }));
 const router = express.Router();
 
-
+// function to check the correct format of shared_with input field and and the existence of all users entered
 async function errors_in_sharedwith(expense){
     let users = expense.shared_with.split(',');
     var i;
@@ -27,6 +27,7 @@ async function errors_in_sharedwith(expense){
     return false;
 }
 
+// function to check the correct format of quotas input field and that the sum of the quotas gives the total amount
 async function errors_in_quotas(expense){
     let shared_length = expense.shared_with.split(',').length;
     let quotas = expense.quotas.split(',');
@@ -43,6 +44,7 @@ async function errors_in_quotas(expense){
     return false;
 }
 
+// function to check the entered expense 
 async function checkInput(expense){
     if (expense.date > new Date()){
         return {msg:"The date cannot be in the future"};
