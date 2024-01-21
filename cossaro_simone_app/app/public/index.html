@@ -58,7 +58,7 @@
               Your balance: 
               <span v-if="balance>0" id="total_balance" class="text-success">+{{ balance }}</span>
               <span v-if="balance<0" id="total_balance" class="text-danger">{{ balance }}</span>
-              <span v-if="!balance" id="total_balance"> 0</span>
+              <span v-if="!balance || balance==0" id="total_balance"> 0</span>
             </div>
             <div id="debts_line">
               Debts to pay: 
